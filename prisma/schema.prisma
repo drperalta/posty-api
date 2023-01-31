@@ -11,9 +11,9 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  email      String    @unique
-  username   String    @unique
+  id         String     @id @default(uuid())
+  email      String     @unique
+  username   String     @unique
   first_name String
   last_name  String
   full_name  String
@@ -21,19 +21,21 @@ model User {
   Posts      Post[]
   Comments   Comment[]
   Reacts     React[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  Reaction   Reaction[]
 }
 
 model Post {
-  id        String    @id @default(uuid())
+  id        String     @id @default(uuid())
   content   String
   userId    String
-  User      User      @relation(fields: [userId], references: [id])
+  User      User       @relation(fields: [userId], references: [id])
   Comments  Comment[]
   Reacts    React[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Reaction  Reaction[]
 }
 
 model Comment {
@@ -47,9 +49,9 @@ model Comment {
   updatedAt DateTime @updatedAt
 }
 
-model React {
+model Reaction {
   id        String   @id @default(uuid())
-  reaction  Reaction
+  react     React
   postId    String
   Post      Post     @relation(fields: [postId], references: [id])
   userId    String
@@ -58,7 +60,7 @@ model React {
   updatedAt DateTime @updatedAt
 }
 
-enum Reaction {
+enum React {
   LIKE
   DISLIKE
 }
