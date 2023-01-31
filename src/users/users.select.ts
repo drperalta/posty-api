@@ -10,7 +10,6 @@ export const UserSelect = prismaSelect.get({
   full_name: true,
   username: true,
   email: true,
-  Role: true,
   createdAt: true,
   updatedAt: true,
 });

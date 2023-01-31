@@ -55,17 +55,21 @@ export class UsersService {
    * @param withPassword if 'true' response will include hashed password
    * @returns single user details
    */
-  findOne(
+  async findOne(
     whereUniqueInput: Prisma.UserWhereUniqueInput,
     withPassword?: boolean,
   ) {
-    return this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: whereUniqueInput,
       select: {
         ...UserSelect,
         password: withPassword ? withPassword : false,
       },
     });
+
+    if (!user) throw new UserRecordNotFoundException();
+
+    return user;
   }
 
   /**

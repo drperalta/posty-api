@@ -14,7 +14,6 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string) {
-    console.log('LOG VALIDATE');
     const user = await this.usersService.findOne({ username }, true);
 
     if (!user) throw new InvalidCredentialsException();
