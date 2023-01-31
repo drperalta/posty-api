@@ -29,6 +29,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 export class CommentsController {
   constructor(private readonly commentsService: CommentsService) {}
 
+  // Create comment
   @Post()
   @ApiOperation({ summary: 'Create Comment' })
   @UseZodGuard('body', CommentCreateSchema)
@@ -41,6 +42,7 @@ export class CommentsController {
     return this.commentsService.create(request.user.id, createCommentDto);
   }
 
+  // Get comment by post id
   @Get()
   @ApiOperation({ summary: 'Get Comments by Post Id' })
   @UseGuards(JwtAuthGuard)
@@ -53,6 +55,7 @@ export class CommentsController {
     return this.commentsService.findAllByPostId(postId);
   }
 
+  // Get single comment
   @Get(':id')
   @ApiOperation({ summary: 'Get Single Comment' })
   @UseGuards(JwtAuthGuard)
@@ -60,11 +63,13 @@ export class CommentsController {
     return this.commentsService.findOne(id);
   }
 
+  // Update comment
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
     return this.commentsService.update(id, updateCommentDto);
   }
 
+  // Remove comment
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.commentsService.remove(id);
