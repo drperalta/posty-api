@@ -1,0 +1,2 @@
+export const ERROR_CODE_DUPLICATE_KEY = 'P2002';
+export const ERROR_CODE_RECORD_NOT_FOUND = 'P2025';

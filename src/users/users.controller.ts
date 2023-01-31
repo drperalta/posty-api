@@ -1,34 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserDto } from './dto/users.dto';
+import { ApiBody, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { UseZodGuard } from 'nestjs-zod';
+import { UserUpdateSchema } from './schema/users.schema';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  // Search user by name
+  @Get('search/:name')
+  @ApiParam({
+    name: 'name',
+    type: String,
+  })
+  @ApiOperation({ summary: 'Find User by name' })
+  findByName(@Param('name') name: string) {
+    return this.usersService.findByName(name);
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
-  }
-
+  // Get single user by id
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+    return this.usersService.findOne({ id });
   }
 
+  // Update user details
   @Patch(':id')
+  @ApiOperation({ summary: 'Update User' })
+  @UseZodGuard('body', UserUpdateSchema)
+  @ApiBody({
+    description: 'Update User',
+    type: UpdateUserDto,
+  })
+  @ApiParam({
+    name: 'id',
+    type: String,
+  })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+    return this.usersService.update(id, updateUserDto);
   }
 }
