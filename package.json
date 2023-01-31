@@ -1,8 +1,8 @@
 {
   "name": "posty-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "A Social Media Platform API",
+  "author": "David Peralta",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
