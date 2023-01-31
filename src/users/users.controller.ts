@@ -49,6 +49,7 @@ export class UsersController {
   // Get single user by id
   @Get(':id')
   @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Get single user by user id' })
   findOne(@Param('id') id: string) {
     return this.usersService.findOne({ id });
   }
@@ -61,10 +62,6 @@ export class UsersController {
   @ApiBody({
     description: 'Update User',
     type: UpdateUserDto,
-  })
-  @ApiParam({
-    name: 'id',
-    type: String,
   })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);

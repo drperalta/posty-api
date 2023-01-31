@@ -65,12 +65,16 @@ export class CommentsController {
 
   // Update comment
   @Patch(':id')
+  @ApiOperation({ summary: 'Update comment' })
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateCommentDto: UpdateCommentDto) {
     return this.commentsService.update(id, updateCommentDto);
   }
 
   // Remove comment
   @Delete(':id')
+  @ApiOperation({ summary: 'Remove comment' })
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.commentsService.remove(id);
   }
