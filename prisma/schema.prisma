@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  username   String    @unique
+  first_name String
+  last_name  String
+  full_name  String
+  password   String
+  Posts      Post[]
+  Comments   Comment[]
+  Reacts     React[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  content   String
+  userId    String
+  User      User      @relation(fields: [userId], references: [id])
+  Comments  Comment[]
+  Reacts    React[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  comment   String
+  postId    String
+  Post      Post     @relation(fields: [postId], references: [id])
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model React {
+  id        String   @id @default(uuid())
+  reaction  Reaction
+  postId    String
+  Post      Post     @relation(fields: [postId], references: [id])
+  userId    String
+  User      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Reaction {
+  LIKE
+  DISLIKE
+}
