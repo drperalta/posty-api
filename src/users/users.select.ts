@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { PrismaSelect } from 'src/common/helpers/prismaSelect';
 
-const prismaSelect = new PrismaSelect<Prisma.UserSelect>();
+export const userPrismaSelect = new PrismaSelect<Prisma.UserSelect>();
 
-export const UserSelect = prismaSelect.get({
+export const UserSelect = userPrismaSelect.get({
   id: true,
   first_name: true,
   last_name: true,
