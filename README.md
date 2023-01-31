@@ -9,6 +9,7 @@ Posty API is a sample project that demonstrates the integration of NestJS and Pr
 - NestJS
 - Prisma
 - PostgreSQL
+- Swagger
 - TypeScript
 - JWT
 - Passport
