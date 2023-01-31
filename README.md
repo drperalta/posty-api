@@ -74,6 +74,8 @@ Posty API is a sample project that demonstrates the integration of NestJS and Pr
 #### Reaction
 
 - `POST /api/reactions`: Create post reaction
+- `GET /api/reactions`: Get reactions by post id or user id
+- `GET /api/reactions/count`: Get reactions count by post id
 - `PATCH /api/reactions/:id`: Update post reaction
 - `DELETE /api/reactions/:id`: Delete post reaction
 
