@@ -3,6 +3,7 @@ import { CreateReactionDto, UpdateReactionDto } from './dto/reaction.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PostsService } from 'src/posts/posts.service';
 import { RecordNotFoundException } from 'src/common/errors';
+import { Prisma, React } from '@prisma/client';
 
 @Injectable()
 export class ReactionsService {
@@ -36,7 +37,7 @@ export class ReactionsService {
    * @returns reaction details
    */
   async findOne(id: string) {
-    const reaction = this.prisma.reaction.findUnique({
+    const reaction = await this.prisma.reaction.findUnique({
       where: {
         id,
       },
@@ -45,6 +46,31 @@ export class ReactionsService {
     if (!reaction) throw new RecordNotFoundException({ model: 'Reaction' });
 
     return reaction;
+  }
+
+  /**
+   * Count reactions by post id
+   * @param postId post id
+   * @returns count of reaction per post id & type of reaction
+   */
+  async count(postId: string, react?: React) {
+    return await this.prisma.reaction.count({
+      where: {
+        postId,
+        react,
+      },
+    });
+  }
+
+  /**
+   * Get all reaction
+   * @param userId user id
+   * @returns array of reaction per user and post
+   */
+  async findMany(scalarWhereInput: Prisma.ReactionScalarWhereInput) {
+    return this.prisma.reaction.findMany({
+      where: scalarWhereInput,
+    });
   }
 
   /**

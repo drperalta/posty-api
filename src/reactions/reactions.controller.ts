@@ -7,13 +7,22 @@ import {
   Delete,
   UseGuards,
   Request,
+  Get,
+  Query,
 } from '@nestjs/common';
 import { ReactionsService } from './reactions.service';
 import { CreateReactionDto, UpdateReactionDto } from './dto/reaction.dto';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UseZodGuard } from 'nestjs-zod';
 import { ReactionCreateSchema } from './schema/reactions.schema';
+import { React } from '@prisma/client';
 
 @ApiBearerAuth()
 @Controller('reactions')
@@ -32,6 +41,42 @@ export class ReactionsController {
   })
   create(@Request() request, @Body() createReactDto: CreateReactionDto) {
     return this.reactionsService.create(request.user.id, createReactDto);
+  }
+
+  // Get post reaction count
+  @Get()
+  @ApiOperation({ summary: 'Count Reactions by user id and react' })
+  @UseGuards(JwtAuthGuard)
+  @ApiQuery({
+    name: 'postId',
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
+    name: 'userId',
+    type: String,
+    required: false,
+  })
+  findMany(@Query('postId') postId?: string, @Query('userId') userId?: string) {
+    if (!postId && !userId) return [];
+
+    return this.reactionsService.findMany({ postId, userId });
+  }
+
+  @Get('count')
+  @ApiOperation({ summary: 'Count Reactions by user id and react' })
+  @UseGuards(JwtAuthGuard)
+  @ApiQuery({
+    name: 'postId',
+    type: String,
+  })
+  @ApiQuery({
+    name: 'react',
+    enum: React,
+    required: false,
+  })
+  count(@Query('postId') postId: string, @Query('react') react?: React) {
+    return this.reactionsService.count(postId, react);
   }
 
   // Update Reaction
