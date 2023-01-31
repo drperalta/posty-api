@@ -1,73 +1,82 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Posty API - A Social Media Platform API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Introduction
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Posty API is a sample project that demonstrates the integration of NestJS and Prisma to build a social media like platform. With Posty, API you can create posts, add comments, and react to posts.
 
-## Description
+## Tech Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- NestJS
+- Prisma
+- PostgreSQL
+- TypeScript
+- JWT
+- Passport
+- Zod
+- Argon2
 
-## Installation
+## Requirements
 
-```bash
-$ npm install
-```
+- Node.js >= 12.x
+- npm >= 6.x
+- Prisma CLI
 
-## Running the app
+## Getting Started
 
-```bash
-# development
-$ npm run start
+1. Clone the repository: `git clone https://github.com/drperalta/posty-api.git`
+2. Change into the project directory: `cd posty-api`
+3. Install dependencies: `pnpm install`
+4. Set up the database:
+   1. Create a new database in PostgreSQL
+   2. Update the DATABASE_URL in `.env` file with your database url
+   3. Run the Prisma migration: `pnpm prisma migrate dev`
+5. Start the NestJS server: `pnpm start:dev`
+6. Access the API at `http://localhost:3333/api`
+7. Access the API Documentation at `http://localhost:3333/documentation`
 
-# watch mode
-$ npm run start:dev
+## Features
 
-# production mode
-$ npm run start:prod
-```
+- Create posts
+- Add comments to posts
+- React to posts (like and dislike)
 
-## Test
+## API Endpoints
 
-```bash
-# unit tests
-$ npm run test
+#### Auth
 
-# e2e tests
-$ npm run test:e2e
+- `POST /api/auth/login`: Login user
+- `POST /api/auth/register`: Create new user
 
-# test coverage
-$ npm run test:cov
-```
+#### User
 
-## Support
+- `GET /api/users/:id`: Get single user
+- `GET /api/users/me`: Get currently logged in user
+- `GET /api/users/search/:name`: Find user by name
+- `PATCH /api/users/:id`: Update user details
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### Post
 
-## Stay in touch
+- `POST /api/posts`: Create user post
+- `GET /api/posts`: Get post by user id
+- `GET /api/posts/me`: Get all logged in users posts
+- `GET /api/posts/:id`: Get post by id
+- `PATCH /api/posts/:id`: Update user post
+- `DELETE /api/posts/:id`: Delete user post
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### Comment
 
-## License
+- `POST /api/comments`: Create post comment
+- `GET /api/comments`: Get comments by post id
+- `GET /api/comments/:id`: Get single post comment
+- `PATCH /api/comments/:id`: Update post comment
+- `DELETE /api/comments/:id`: Delete post comment
 
-Nest is [MIT licensed](LICENSE).
+#### Reaction
+
+- `POST /api/reactions`: Create post reaction
+- `PATCH /api/reactions/:id`: Update post reaction
+- `DELETE /api/reactions/:id`: Delete post reaction
+
+## Conclusion
+
+Posty is a great starting point for building a social media platform with NestJS and Prisma. The project showcases the capabilities of the two technologies and provides a solid foundation for building more complex applications.
