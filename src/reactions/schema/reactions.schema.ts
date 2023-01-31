@@ -15,7 +15,7 @@ export const ReactionSchema = z.object({
 });
 
 export const ReactionCreateSchema = ReactionSchema.pick({
-  reaction: true,
+  react: true,
   postId: true,
 });
 

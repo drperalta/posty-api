@@ -1,34 +1,56 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { ReactionsService } from './reactions.service';
-import { CreateReactionDto } from './dto/create-reaction.dto';
-import { UpdateReactionDto } from './dto/update-reaction.dto';
+import { CreateReactionDto, UpdateReactionDto } from './dto/reaction.dto';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { UseZodGuard } from 'nestjs-zod';
+import { ReactionCreateSchema } from './schema/reactions.schema';
 
+@ApiBearerAuth()
 @Controller('reactions')
+@ApiTags('Reactions')
 export class ReactionsController {
   constructor(private readonly reactionsService: ReactionsService) {}
 
+  // Create Reaction
   @Post()
-  create(@Body() createReactionDto: CreateReactionDto) {
-    return this.reactionsService.create(createReactionDto);
+  @ApiOperation({ summary: 'Create Reaction' })
+  @UseGuards(JwtAuthGuard)
+  @UseZodGuard('body', ReactionCreateSchema)
+  @ApiBody({
+    type: CreateReactionDto,
+    description: 'Create Reaction',
+  })
+  create(@Request() request, @Body() createReactDto: CreateReactionDto) {
+    return this.reactionsService.create(request.user.id, createReactDto);
   }
 
-  @Get()
-  findAll() {
-    return this.reactionsService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.reactionsService.findOne(+id);
-  }
-
+  // Update Reaction
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReactionDto: UpdateReactionDto) {
-    return this.reactionsService.update(+id, updateReactionDto);
+  @ApiOperation({ summary: 'Update Reaction' })
+  @UseGuards(JwtAuthGuard)
+  @ApiBody({
+    type: UpdateReactionDto,
+    description: 'Update Reaction',
+  })
+  update(@Param('id') id: string, @Body() updateReactDto: UpdateReactionDto) {
+    return this.reactionsService.update(id, updateReactDto);
   }
 
+  // Remove reaction
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete Reaction' })
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
-    return this.reactionsService.remove(+id);
+    return this.reactionsService.remove(id);
   }
 }
